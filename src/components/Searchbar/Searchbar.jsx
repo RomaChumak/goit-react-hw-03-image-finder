@@ -1,6 +1,6 @@
 import { GoSearch } from "react-icons/go";
 import { Component } from "react";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { SearchbarHeader, SearchForm, SearchFormBtn,  SearchFormInput } from "./Searchbar.styled"
 export class SearchBar extends Component {
   state = {
