@@ -1,5 +1,5 @@
 import { MutatingDots } from 'react-loader-spinner';
-import { LoaderStyled } from './loader.styled';
+import { LoaderStyled } from './Loader.styled';
 export const Loader = () => {
     return (<LoaderStyled>
 <MutatingDots 

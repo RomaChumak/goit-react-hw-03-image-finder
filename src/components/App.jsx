@@ -5,7 +5,7 @@ import { SearchBar } from './Searchbar/Searchbar';
 import { ImageGallery } from './Gallery/GalleryImg';
 import { Button } from './LoadMore/LoadMore';
 import { GlobalStyled } from './GlobalStyled';
-import { Loader } from './Loader/loader';
+import { Loader } from './Loader/Loader';
 export class App extends Component {
   state = {
     query: '',
