@@ -1,7 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
-
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyled = createGlobalStyle`
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -9,12 +8,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+};
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
 h1,
 h2,
 h3,
@@ -44,4 +39,5 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
-}`;
+}
+`

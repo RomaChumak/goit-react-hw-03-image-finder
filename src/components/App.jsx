@@ -1,100 +1,75 @@
 import React, { Component } from 'react';
 import { fetchImages } from './api';
-// import { SearchBar } from './Searchbar/SearchBar';
 import toast, { Toaster } from 'react-hot-toast';
-import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Loader } from './Loader/Loader';
-import { Button } from './Button/Button';
-import { Layout } from './Layout';
-import { GlobalStyle } from './GlobalStyle';
 import { SearchBar } from './Searchbar/Searchbar';
+import { ImageGallery } from './Gallery/GalleryImg';
+import { Button } from './LoadMore/LoadMore';
+import { GlobalStyled } from './GlobalStyled';
+import { Loader } from './Loader/loader';
 export class App extends Component {
   state = {
     query: '',
-    images: [],
+    img: [],
     page: 1,
     totalHits: 0,
     loading: false,
-    error: false,
-  };
+    err: false,
+  }; 
+  
+  async componentDidUpdate(prevProps, prevState) {
+    if (this.state.query !== prevState.query || this.state.page !== prevState.page) {
+      try {
+       this.setState({loading: true})
+        const gallery = await fetchImages(this.state.query, this.state.page)
+        if (!gallery.totalHits) {
+          toast.error('Nothing was found for your request')
+        };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.query !== prevState.query ||
-      this.state.page !== prevState.page
-    ) {
-      this.upLoadImages();
-    }
-  }
+        this.setState(pState => ({ img: [...pState.img, ...gallery.hits], totalHits: gallery.totalHits, }))
 
-  upLoadImages = async () => {
-    try {
-      this.setState({ loading: true });
-      const { hits, totalHits } = await fetchImages(
-        this.state.query,
-        this.state.page
-      );
-      if (!totalHits) {
-        toast.error(
-          'Sorry, nothing was found for your request, please try something else.',
-          {
-            icon: '🫣',
-          }
-        );
-        return;
-      }
+        if (this.state.img.length < 12 && gallery.totalHits) {
+          return toast.success(`We found ${gallery.totalHits} images`)
+        }
 
-      this.setState(prevState => ({
-        images: [...prevState.images, ...hits],
-        totalHits,
-      }));
-
-      if (this.state.images.length < 12) {
-        return toast.success(`Hooray! We found ${totalHits} images.`, {
-          icon: '👏',
-        });
-      }
-    } catch (error) {
-      this.setState({ error: true });
-      toast.error('Oops, something went wrong.Please try again later.', {
-        icon: '🆘',
-      });
-    } finally {
-      this.setState({ loading: false, error: false });
-    }
-  };
-
-  handleSubmit = value => {
+     } catch (error) {
+        this.setState({ err: true });
+        toast.error(' Something went wrong. Try again later')
+      } finally {
+        this.setState({loading: false, err: false})
+     }
+     }
+ 
+  
+ }
+  handleSubmit = (search) => {
     this.setState({
-      query: `${value}`,
-      images: [],
+      query: `${search}`,
+      img: [],
       page: 1,
-    });
-  };
-
-  handleLoadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
-  };
-
+  })
+  }
+  handleLoad = () => {
+    this.setState(pState =>({
+      page: pState.page + 1
+    }))
+    // console.log(5)
+  }
   render() {
-    const { loading, totalHits, images } = this.state;
-    const pages = totalHits / 12;
-    const loadMore = this.handleLoadMore;
-    const onSubmit = this.handleSubmit;
-
+    const Load = this.handleLoad;
+    const submit = this.handleSubmit;
+    const { img } = this.state;
+    const { totalHits } = this.state;
+    const { loading } = this.state
+    const pages = totalHits / 12
     return (
-      <Layout>
-        <SearchBar onSubmit={onSubmit} />
-        {loading && <Loader />}
-        {totalHits > 0 && <ImageGallery images={images} />}
-        {totalHits > 0 && pages > 1 && !loading && (
-          <Button onLoadMore={loadMore} />
-        )}
-       <GlobalStyle />
-        <Toaster position="top-right" reverseOrder={true} />
-      </Layout>
+      <div>
+        <SearchBar onSubmit={submit} />
+        {totalHits > 0 && <ImageGallery images={img} />}
+        {loading > 0 && <Loader/> }
+        {totalHits > 0 && pages > 1 && !loading && (<Button onLoad={Load} />)}
+        <Toaster position='butom' />
+        <GlobalStyled/>
+      </div>
     );
   }
 }
