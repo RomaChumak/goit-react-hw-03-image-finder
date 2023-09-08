@@ -28,7 +28,7 @@ export class SearchBar extends Component {
   return( <SearchbarHeader>
     <SearchForm onSubmit={submit}>
       <SearchFormBtn type="submit" >
-        <span><GoSearch size={25} /></span>
+        <span><GoSearch size={25} color="blue"/></span>
       </SearchFormBtn>
 
       <SearchFormInput
