@@ -1,14 +1,16 @@
-import { ColorRing } from 'react-loader-spinner';
+import { MutatingDots } from 'react-loader-spinner';
 import { LoaderStyled } from './loader.styled';
 export const Loader = () => {
     return (<LoaderStyled>
-<ColorRing
-  visible={true}
-  height="150"
-  width="150"
-  ariaLabel="blocks-loading"
+<MutatingDots 
+  height="100"
+  width="100"
+  color="#4fa94d"
+  secondaryColor= '#4fa94d'
+  radius='12.5'
+  ariaLabel="mutating-dots-loading"
   wrapperStyle={{}}
-  wrapperClass="blocks-wrapper"
-  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-/> </LoaderStyled>)
+  wrapperClass=""
+  visible={true}
+ /> </LoaderStyled>)
 }
