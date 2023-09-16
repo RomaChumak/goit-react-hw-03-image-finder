@@ -14,8 +14,8 @@ export class SearchBar extends Component {
   handleSubmit = (evt) => {
     evt.preventDefault();
     const value = this.state.value;
-    if (value === '') {
-      toast.error('Please enter your request')
+    if (value.trim() === '') {
+     return toast.error('Please enter your request')
     }
     this.props.onSubmit(value)
     this.setState({ value: '' })
